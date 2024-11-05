@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore
 
       - name: Install Moq
-        run: dotnet add StarshipGame.Test/StarshipGame.Test.csproj package Moq
+        run: dotnet add StarshipGame.Tests/StarshipGame.Tests.csproj package Moq
 
       - name: Build
         run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true

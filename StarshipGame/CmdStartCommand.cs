@@ -2,8 +2,8 @@ namespace StarshipGame;
 
 public class CmdStartCommand : ICommand
 {
-    private readonly ICommand _cmd { get; };
-    private readonly IStartable _order { get; };
+    private ICommand _cmd { get; }
+    private IStartable _order { get; }
 
     public CmdStartCommand(ICommand cmd, IStartable order)
     {

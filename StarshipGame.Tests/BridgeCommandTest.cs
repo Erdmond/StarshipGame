@@ -5,7 +5,7 @@ namespace StarshipGame.Tests;
 public class BridgeCommandTest
 {
     [Fact]
-    public void SetupCommandExecutesRight()
+    public void InjectedCommandHasBeenExecuted()
     {
         Mock<ICommand> innerCommand = new Mock<ICommand>();
         innerCommand.Setup(e => e.Execute());

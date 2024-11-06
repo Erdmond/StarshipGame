@@ -1,6 +1,6 @@
 ﻿using Moq;
-namespace StarshipGame.Tests;
 
+namespace StarshipGame.Tests;
 
 public class BridgeCommandTest
 {
@@ -10,10 +10,10 @@ public class BridgeCommandTest
         Mock<ICommand> innerCommand = new Mock<ICommand>();
         innerCommand.Setup(e => e.Execute());
         BridgeCommand cmd = new BridgeCommand();
-        
+
         cmd.Inject(innerCommand.Object);
         cmd.Execute();
-        
+
         innerCommand.Verify(e => e.Execute(), Times.Once);
     }
 

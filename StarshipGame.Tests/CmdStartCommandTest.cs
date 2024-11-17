@@ -16,6 +16,8 @@ public class CmdStartCommandTest
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "InitialValues.Set", (object[] args) => (new Mock<Hwdtech.ICommand>()).Object).Execute();
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "GQueue", (object[] args) => q.Object).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Command.Set", (object[] args) => (new Mock<Hwdtech.ICommand>()).Object).Execute();
     }
 
     [Fact]

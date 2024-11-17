@@ -19,6 +19,6 @@ public class CmdStartCommand : Hwdtech.ICommand
 
         IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _order.Target, _cmd.GetType().Name, _cmd).Execute();
 
-        IoC.Resolve<IQueue>("GQueue").Put(IoC.Resolve<ICommand>(_cmd.GetType().Name, _order.Target));
+        IoC.Resolve<IQueue>("GQueue").Put(IoC.Resolve<Hwdtech.ICommand>("Command.Set", _order.Target, _cmd.GetType().Name));
     }
 }

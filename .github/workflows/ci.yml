@@ -37,7 +37,6 @@ jobs:
       - name: Generate Coverage Report
         run: reportgenerator -reports:TestResults/*/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html;HtmlSummary
 
-jobs:
   build_new:
     runs-on: ubuntu-latest
 

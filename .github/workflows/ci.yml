@@ -30,3 +30,22 @@ jobs:
 
       - name: Test
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate Coverage Report
+        run: reportgenerator -reports:StarshipGame.Tests/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html;HtmlSummary
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coveragereport
+      
+      - name: Display Coverage Percentage
+        run: |
+          Coverage=$(grep -oP '(?<=<linescovered>)[0-9]+' StarshipGame.Tests/coverage.cobertura.xml)
+          TotalLines=$(grep -oP '(?<=<lines>)[0-9]+' StarshipGame.Tests/coverage.cobertura.xml)
+          Percent=$(awk "BEGIN {printf \"%.2f\", ($Coverage/$TotalLines)*100}")
+          echo "Coverage: $Percent%"

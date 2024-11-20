@@ -4,21 +4,21 @@ namespace StarshipGame;
 
 public class CmdStartCommand : Hwdtech.ICommand
 {
-    private IOrder _order { get; }
-    private Hwdtech.ICommand _cmd { get; }
+    private IOrder _Order { get; }
+    private Hwdtech.ICommand _Cmd { get; }
 
     public CmdStartCommand(IOrder order, Hwdtech.ICommand cmd)
     {
-        _order = order;
-        _cmd = cmd;
+        _Order = order;
+        _Cmd = cmd;
     }
 
     public void Execute()
     {
-        _order.InitialValues.ToList().ForEach(item => IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _order.Target, item.Key, item.Value).Execute());
+        _Order.InitialValues.ToList().ForEach(item => IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _Order.Target, item.Key, item.Value).Execute());
 
-        IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _order.Target, _cmd.GetType().Name, _cmd).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _Order.Target, _cmd.GetType().Name, _Cmd).Execute();
 
-        IoC.Resolve<IQueue>("GQueue").Put(IoC.Resolve<Hwdtech.ICommand>("Command.Set", _order.Target, _cmd.GetType().Name));
+        IoC.Resolve<IQueue>("GQueue").Put(IoC.Resolve<Hwdtech.ICommand>("Command.Set", _Order.Target, _Cmd.GetType().Name));
     }
 }

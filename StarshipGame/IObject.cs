@@ -2,6 +2,9 @@ namespace StarshipGame;
 
 public interface IObject
 {
-    object GetProperty(string key);
-    void SetProperty(string key, object value);
+    object this[string key]
+    {
+        get;
+        set;
+    }
 }

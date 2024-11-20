@@ -9,38 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Checkstyle
-        run: dotnet format --verify-no-changes
- 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Install Moq
-        run: dotnet add StarshipGame.Tests/StarshipGame.Tests.csproj package Moq
-
-      - name: Build
-        run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
-
-      - name: Test
-        run: dotnet test --collect:"XPlat Code Coverage"
-
-      - name: List TestResults
-        run: ls -R TestResults
-
-      - name: Generate Coverage Report
-        run: reportgenerator -reports:TestResults/*/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html;HtmlSummary
-
-  build_new:
-    runs-on: ubuntu-latest
-
-    steps:
       - uses: actions/checkout@v3
 
       - name: Setup .NET
@@ -64,4 +32,4 @@ jobs:
         run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: Coverage and test
-        run: dotnet coverlet StarshipGame.Tests/bin/Debug/net8.0/StarshipGame.Tests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
+        run: dotnet coverlet StarshipGame.Tests/bin/Debug/net8.0/StarshipGame.Tests.dll --target "dotnet" --targetargs "dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" -f=opencover -o="coverage.xml"

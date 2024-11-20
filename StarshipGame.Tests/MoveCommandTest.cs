@@ -3,10 +3,10 @@ using Moq;
 
 namespace StarshipGame.Test;
 
-public class UnitTestMove
+public class MoveCommandTest
 {
     [Fact]
-    public void TestNormalTranslation() // (12, 5) + (-7, 3) = (5, 8)
+    public void TestPositionChangesCorrectly() // (12, 5) + (-7, 3) = (5, 8)
     {
         Vector initialPosition = new Vector(new int[] { 13, 5 });
         Vector velocity = new Vector(new int[] { -8, 3 });

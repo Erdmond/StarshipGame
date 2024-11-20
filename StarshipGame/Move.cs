@@ -2,15 +2,9 @@ namespace StarshipGame;
 
 public class MoveCommand : ICommand
 {
-    private IMovable obj;
+    private IMovable _Obj;
 
-    public MoveCommand(IMovable obj)
-    {
-        this.obj = obj;
-    }
+    public MoveCommand(IMovable obj) => _Obj = obj;
 
-    public void Execute()
-    {
-        obj.Position += obj.Velocity;
-    }
+    public void Execute() => _Obj.Position += _Obj.Velocity;
 }

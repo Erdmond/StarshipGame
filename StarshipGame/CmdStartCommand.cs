@@ -17,7 +17,7 @@ public class CmdStartCommand : Hwdtech.ICommand
     {
         _Order.InitialValues.ToList().ForEach(item => IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _Order.Target, item.Key, item.Value).Execute());
 
-        IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _Order.Target, _cmd.GetType().Name, _Cmd).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("InitialValues.Set", _Order.Target, _Cmd.GetType().Name, _Cmd).Execute();
 
         IoC.Resolve<IQueue>("GQueue").Put(IoC.Resolve<Hwdtech.ICommand>("Command.Set", _Order.Target, _Cmd.GetType().Name));
     }

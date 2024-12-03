@@ -24,7 +24,7 @@ public class Angle
     }
 
     public override int GetHashCode()
-        {
-            return HashCode.Combine(X);
-        }
+    {
+        return HashCode.Combine(X);
+    }
 }

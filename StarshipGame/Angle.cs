@@ -22,4 +22,9 @@ public class Angle
 
         return X == Angle.X;
     }
+
+    public override int GetHashCode()
+        {
+            return HashCode.Combine(X);
+        }
 }

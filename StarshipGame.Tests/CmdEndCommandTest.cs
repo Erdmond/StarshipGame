@@ -17,7 +17,7 @@ public class CmdEndCommandTest
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Object", (object[] args) => i.Object).Execute();
     }
     [Fact]
-    public void CmdEndCommandTestPostItCommandInQueue()
+    public void CmdEndCommandTestInjectEmptyCommand()
     {
         var order = new Mock<IOrder>();
         order.Setup(s => s.Target).Returns((new Mock<IObject>()).Object);

@@ -12,6 +12,5 @@ public class RotateCommand : ICommand
     public void Execute()
     {
         Obj.Angle += Obj.AngleVelocity;
-        Obj.Angle = (Obj.Angle) % 360;
     }
 }

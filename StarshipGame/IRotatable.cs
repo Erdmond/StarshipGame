@@ -2,6 +2,6 @@ namespace StarshipGame;
 
 public interface IRotatable
 {
-    int Angle { get; set; }
-    int AngleVelocity { get; }
+    Angle Angle { get; set; }
+    Angle AngleVelocity { get; }
 }

@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -22,14 +22,33 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Install Required Tools
+      - name: Build and Test
         run: |
-          dotnet new tool-manifest
-          dotnet tool install dotnet-coverage
-          dotnet tool install coverlet.console
+          dotnet build SpaceBattle.Lib/SpaceBattle.Lib.csproj --configuration Release
+          dotnet build SpaceBattle.Tests/SpaceBattle.Tests.csproj --configuration Release
+          dotnet test --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
-      - name: Build
-        run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      - name: Coverage and test
-        run: dotnet coverlet StarshipGame.Tests/bin/Debug/net8.0/StarshipGame.Tests.dll --target "dotnet" --targetargs "test --no-build /p:CollectCoverage=true" -f opencover -o "coverage.xml"
+      - name: Generate Coverage Report
+        run: |
+          reportgenerator "-reports:coverage/*/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:TextSummary;Cobertura"
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
+
+      - name: Find Uncovered Lines
+        run: |
+          echo "Uncovered Lines Details" >> $GITHUB_STEP_SUMMARY
+          find SpaceBattle.Lib -name "*.cs" -not -path "*/obj/*" -exec basename {} \; >> $GITHUB_STEP_SUMMARY
+
+      - name: Summary
+        run: |
+          echo "Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

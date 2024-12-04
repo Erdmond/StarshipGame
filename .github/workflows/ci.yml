@@ -36,9 +36,6 @@ jobs:
       - name: Generate Detailed Coverage Report
         run: |
           reportgenerator "-reports:coverage/*/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:TextSummary;Cobertura"
-          if [ "${{ github.actor }}" != "zaryanezrya" ] && [ "${{ github.actor }}" != "etyumentcev" ]; then
-            echo -e "\n\n\nWith love to everyone enjoying or suffering OOAnD\n\n\n - goldenreaper, HoneyMafia"
-          fi
 
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0

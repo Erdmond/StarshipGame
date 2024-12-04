@@ -24,7 +24,7 @@ jobs:
 
       - name: Build
         run: |
-          dotnet build SpaceBattle.Lib/SpaceBattle.Lib.csproj --configuration Release
+          dotnet build StarshipGame/StarshipGame.csproj --configuration Release
           dotnet build SpaceBattle.Tests/SpaceBattle.Tests.csproj --configuration Release
 
       - name: Test
@@ -61,7 +61,7 @@ jobs:
           echo "### Uncovered Lines Details" >> $GITHUB_STEP_SUMMARY
           echo "Analyzing coverage report..." >> $GITHUB_STEP_SUMMARY
           
-          for file in $(find SpaceBattle.Lib -name "*.cs" -not -path "*/obj/*"); do
+          for file in $(find StarshipGame -name "*.cs" -not -path "*/obj/*"); do
             filename=$(basename "$file")
             echo "#### $filename" >> $GITHUB_STEP_SUMMARY
           done
@@ -71,8 +71,8 @@ jobs:
           echo "### Coverage Details by Class" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ ! -d "SpaceBattle.Lib" ]; then
-            echo "Error: SpaceBattle.Lib directory not found!" >> $GITHUB_STEP_SUMMARY
+          if [ ! -d "StarshipGame" ]; then
+            echo "Error: StarshipGame directory not found!" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
           
@@ -99,14 +99,14 @@ jobs:
                 
                 actual_file=""
                 
-                if [ -f "SpaceBattle.Lib/$file_name" ]; then
-                  actual_file="SpaceBattle.Lib/$file_name"
+                if [ -f "StarshipGame/$file_name" ]; then
+                  actual_file="StarshipGame/$file_name"
                 else
-                  found_file=$(find SpaceBattle.Lib -name "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
+                  found_file=$(find StarshipGame -name "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
                   if [ ! -z "$found_file" ]; then
                     actual_file="$found_file"
                   else
-                    found_file=$(find SpaceBattle.Lib -iname "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
+                    found_file=$(find StarshipGame -iname "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
                     if [ ! -z "$found_file" ]; then
                       actual_file="$found_file"
                     fi
@@ -140,7 +140,7 @@ jobs:
                   unset seen_lines
                   rm class_info.xml
                 else
-                  echo "File not found in SpaceBattle.Lib: $file_name" >> $GITHUB_STEP_SUMMARY
+                  echo "File not found in StarshipGame: $file_name" >> $GITHUB_STEP_SUMMARY
                   echo "Please ensure the file exists and is in the correct location." >> $GITHUB_STEP_SUMMARY
                 fi
                 

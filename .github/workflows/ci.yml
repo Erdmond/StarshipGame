@@ -24,8 +24,8 @@ jobs:
 
       - name: Build and Test
         run: |
-          dotnet build SpaceBattle.Lib/SpaceBattle.Lib.csproj --configuration Release
-          dotnet build SpaceBattle.Tests/SpaceBattle.Tests.csproj --configuration Release
+          dotnet build StarshipGame/StarshipGame.csproj --configuration Release
+          dotnet build StarshipGame.Tests/StarshipGame.Tests.csproj --configuration Release
           dotnet test --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
       - name: Install ReportGenerator
@@ -45,7 +45,7 @@ jobs:
       - name: Find Uncovered Lines
         run: |
           echo "Uncovered Lines Details" >> $GITHUB_STEP_SUMMARY
-          find SpaceBattle.Lib -name "*.cs" -not -path "*/obj/*" -exec basename {} \; >> $GITHUB_STEP_SUMMARY
+          find StarshipGame -name "*.cs" -not -path "*/obj/*" -exec basename {} \; >> $GITHUB_STEP_SUMMARY
 
       - name: Summary
         run: |

@@ -15,25 +15,39 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-
+          
       - name: Checkstyle
         run: dotnet format --verify-no-changes
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build and Test
+      - name: Build
         run: |
-          dotnet build StarshipGame/StarshipGame.csproj --configuration Release
-          dotnet build StarshipGame.Tests/StarshipGame.Tests.csproj --configuration Release
-          dotnet test --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+          dotnet build SpaceBattle.Lib/SpaceBattle.Lib.csproj --configuration Release
+          dotnet build SpaceBattle.Tests/SpaceBattle.Tests.csproj --configuration Release
+
+      - name: Test
+        run: dotnet test --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      - name: Generate Coverage Report
+      - name: Generate Detailed Coverage Report
         run: |
           reportgenerator "-reports:coverage/*/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:TextSummary;Cobertura"
+          if [ "${{ github.actor }}" != "zaryanezrya" ] && [ "${{ github.actor }}" != "etyumentcev" ]; then
+            echo -e "\n\n\nWith love to everyone enjoying or suffering OOAnD\n\n\n - goldenreaper, HoneyMafia"
+          fi
+
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'coverage/*/coverage.cobertura.xml'
+          badge: true
+          format: 'markdown'
+          output: 'both'
+          indicators: true
 
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
@@ -44,11 +58,101 @@ jobs:
 
       - name: Find Uncovered Lines
         run: |
-          echo "Uncovered Lines Details" >> $GITHUB_STEP_SUMMARY
-          find StarshipGame -name "*.cs" -not -path "*/obj/*" -exec basename {} \; >> $GITHUB_STEP_SUMMARY
+          echo "### Uncovered Lines Details" >> $GITHUB_STEP_SUMMARY
+          echo "Analyzing coverage report..." >> $GITHUB_STEP_SUMMARY
+          
+          for file in $(find SpaceBattle.Lib -name "*.cs" -not -path "*/obj/*"); do
+            filename=$(basename "$file")
+            echo "#### $filename" >> $GITHUB_STEP_SUMMARY
+          done
 
-      - name: Summary
+      - name: Show Coverage Details
         run: |
-          echo "Code Coverage Report" >> $GITHUB_STEP_SUMMARY
-          echo "Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Coverage Details by Class" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ ! -d "SpaceBattle.Lib" ]; then
+            echo "Error: SpaceBattle.Lib directory not found!" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          coverage_file=$(find coverage -name "coverage.cobertura.xml" | head -n 1)
+          if [ -z "$coverage_file" ]; then
+            echo "Error: Coverage report not found!" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          while IFS= read -r class_info; do
+            if [[ $class_info =~ name=\"([^\"]+)\".*filename=\"([^\"]+)\".*line-rate=\"([^\"]+)\".*branch-rate=\"([^\"]+)\" ]]; then
+              class_name="${BASH_REMATCH[1]}"
+              file_name="${BASH_REMATCH[2]}"
+              line_rate=$(awk "BEGIN {print ${BASH_REMATCH[3]}*100}")
+              branch_rate=$(awk "BEGIN {print ${BASH_REMATCH[4]}*100}")
+              
+              echo "- File: \`$file_name\`" >> $GITHUB_STEP_SUMMARY
+              echo "- Line Coverage: ${line_rate}%" >> $GITHUB_STEP_SUMMARY
+              echo "- Branch Coverage: ${branch_rate}%" >> $GITHUB_STEP_SUMMARY
+              
+              if (( $(echo "$line_rate < 100" | bc -l) )); then
+                echo "**Uncovered Lines:**" >> $GITHUB_STEP_SUMMARY
+                echo "\`\`\`csharp" >> $GITHUB_STEP_SUMMARY
+                
+                actual_file=""
+                
+                if [ -f "SpaceBattle.Lib/$file_name" ]; then
+                  actual_file="SpaceBattle.Lib/$file_name"
+                else
+                  found_file=$(find SpaceBattle.Lib -name "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
+                  if [ ! -z "$found_file" ]; then
+                    actual_file="$found_file"
+                  else
+                    found_file=$(find SpaceBattle.Lib -iname "$file_name" -not -path "*/obj/*" -not -path "*/bin/*" -type f | head -n 1)
+                    if [ ! -z "$found_file" ]; then
+                      actual_file="$found_file"
+                    fi
+                  fi
+                fi
+                
+                if [ ! -z "$actual_file" ]; then
+                  class_start=$(grep -n "<class.*$file_name.*>" "$coverage_file" | cut -d: -f1)
+                  class_end=$(tail -n +$class_start "$coverage_file" | grep -n "</class>" | head -n 1 | cut -d: -f1)
+                  class_end=$((class_start + class_end - 1))
+                  
+                  sed -n "${class_start},${class_end}p" "$coverage_file" > class_info.xml
+                  
+                  declare -A seen_lines
+                  
+                  grep -o '<line[^>]*>' class_info.xml | \
+                  while read -r line; do
+                    if [[ $line =~ number=\"([0-9]+)\".*hits=\"0\" ]]; then
+                      line_num=${BASH_REMATCH[1]}
+                      if [ -z "${seen_lines[$line_num]}" ]; then
+                        line_content=$(sed -n "${line_num}p" "$actual_file")
+                        if [ ! -z "$line_content" ]; then
+                          line_content=$(echo "$line_content" | sed -e 's/^[[:space:]]*//')
+                          echo "Line $line_num: $line_content" >> $GITHUB_STEP_SUMMARY
+                          seen_lines[$line_num]=1
+                        fi
+                      fi
+                    fi
+                  done
+                  
+                  unset seen_lines
+                  rm class_info.xml
+                else
+                  echo "File not found in SpaceBattle.Lib: $file_name" >> $GITHUB_STEP_SUMMARY
+                  echo "Please ensure the file exists and is in the correct location." >> $GITHUB_STEP_SUMMARY
+                fi
+                
+                echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              fi
+              
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+          done < <(grep "<class.*name=" "$coverage_file")
+
+      - name: Write to Job Summary
+        run: |
+          echo "## Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "### Coverage Summary" >> $GITHUB_STEP_SUMMARY
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

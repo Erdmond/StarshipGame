@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: |
           dotnet build StarshipGame/StarshipGame.csproj --configuration Release
-          dotnet build SpaceBattle.Tests/SpaceBattle.Tests.csproj --configuration Release
+          dotnet build StarshipGame.Tests/StarshipGame.Tests.csproj --configuration Release
 
       - name: Test
         run: dotnet test --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage

@@ -1,5 +1,3 @@
-using Hwdtech;
-
 namespace StarshipGame;
 
 public class CmdEndCommand : Hwdtech.ICommand

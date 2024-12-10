@@ -2,29 +2,39 @@ namespace StarshipGame;
 
 public class Angle
 {
-    public int X { get; set; }
+    private double CosValue { get; }
 
-    public Angle(int x)
+    public double Cosine => CosValue;
+
+    public Angle(double degrees)
     {
-        X = x % 360;
+        CosValue = Math.Cos(degrees * Math.PI / 180);
     }
 
-    public static Angle operator +(Angle y1, Angle y2)
+    private Angle(double cosValue, bool isCosine)
     {
-        return new Angle(y1.X + y2.X);
+        CosValue = cosValue;
     }
+
+    public static Angle operator +(Angle v1, Angle v2)
+    {
+        double newDegrees = Math.Acos(v1.CosValue) * 180 / Math.PI + Math.Acos(v2.CosValue) * 180 / Math.PI;
+        return new Angle(newDegrees % 360);
+    }
+
     public override bool Equals(object? obj)
     {
-        if (obj is not Angle Angle)
+        if (obj is not Angle newAngle)
         {
             return false;
         }
 
-        return X == Angle.X;
+        return Math.Abs(CosValue - newAngle.CosValue) < 1e-10;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(X);
+        return HashCode.Combine(CosValue);
     }
 }
+

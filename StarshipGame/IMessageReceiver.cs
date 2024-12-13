@@ -1,7 +1,7 @@
 namespace StarshipGame;
 using Hwdtech;
 
-public interface ICommandReceiver
+public interface IMessageReceiver
 {
     public void Receive(Hwdtech.ICommand cmd);
 }

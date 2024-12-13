@@ -15,7 +15,7 @@ public class SendCommandTests
     public void SendCommandSendsCommandToIMessageReceiver()
     {
         var cmd = new Mock<Hwdtech.ICommand>();
-        var receiver = new Mock<ICommandReceiver>();
+        var receiver = new Mock<IMessageReceiver>();
 
         var sendCmd = new SendCommand(cmd.Object, receiver.Object);
         sendCmd.Execute();
@@ -27,7 +27,7 @@ public class SendCommandTests
     public void IMessageReceiverCannotAcceptLongOperation()
     {
         var cmd = new Mock<ICommand>();
-        var receiver = new Mock<ICommandReceiver>();
+        var receiver = new Mock<IMessageReceiver>();
 
         receiver.Setup(r => r.Receive(It.IsAny<ICommand>())).Throws(new Exception("Receiver cannot accept long operation"));
 

@@ -1,1 +1,1 @@
-﻿global using static Hwdtech;
+﻿global using Hwdtech;

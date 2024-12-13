@@ -4,9 +4,9 @@ using Hwdtech;
 public class SendCommand : Hwdtech.ICommand
 {
     private Hwdtech.ICommand _Cmd;
-    private ICommandReceiver _Reciever;
+    private IMessageReceiver _Reciever;
 
-    public SendCommand(Hwdtech.ICommand cmd, ICommandReceiver reciever)
+    public SendCommand(Hwdtech.ICommand cmd, IMessageReceiver reciever)
     {
         _Cmd = cmd;
         _Reciever = reciever;

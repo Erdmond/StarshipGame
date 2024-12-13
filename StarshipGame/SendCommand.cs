@@ -1,11 +1,12 @@
 namespace StarshipGame;
+using Hwdtech;
 
 public class SendCommand : ICommand
 {
-    private _Cmd;
-    private _Reciever;
+    private Hwdtech.ICommand _Cmd;
+    private ICommandReceiver _Reciever;
 
-    public SendCommand(ICommand cmd, ICommandReceiver reciever)
+    public SendCommand(Hwdtech.ICommand cmd, ICommandReceiver reciever)
     {
         _Cmd = cmd;
         _Reciever = reciever;
@@ -13,10 +14,6 @@ public class SendCommand : ICommand
 
     public void Execute()
     {
-        reciever.Receive(cmd);
+        _Reciever.Receive(_Cmd);
     }
 }
-/*
-SendCommand в конструктор получает команду ICommand и интерфейс ICommandReceiver.
-В методе Execute SendCommand вызывается метод Receive интерфейса ICommandReceiver, в который передается длительная команда.
-*/

@@ -1,4 +1,4 @@
-namespace StarshipGame;
+namespace StarshipGame.Tests;
 using Moq;
 using Hwdtech;
 using Hwdtech.Ioc;
@@ -14,19 +14,27 @@ public class SendCommandTests
     [Fact]
     public void SendCommandSendsCommandToIMessageReceiver()
     {
-        /*
-        Реализован тест "SendCommand передает команду в IMessageReceiver",
-        который проверяет, что при вызове метода Execute класса SendCommand
-        вызывается метод Receive объекта ICommandReceiver с параметром - объектом длительной команды.
-        */
+        var cmd = new Mock<Hwdtech.ICommand>();
+        var receiver = new Mock<ICommandReceiver>();
+
+        var sendCmd = new SendCommand(cmd.Object, receiver.Object);
+        sendCmd.Execute();
+
+        receiver.Verify(r => r.Receive(cmd.Object), Times.Once());
     }
 
     [Fact]
-    public void IMessageReceiverCannotAcceptLongCommand()
+    public void IMessageReceiverCannotAcceptLongOperation()
     {
-        /*
-        Реализован тест, который проверяет, что SendCommand.Execute выбрасывает исключение,
-        если IMessageReceiver не может принять длительную команду.
-        */
+        var cmd = new Mock<ICommand>();
+        var receiver = new Mock<ICommandReceiver>();
+
+        receiver.Setup(r => r.Receive(It.IsAny<ICommand>())).Throws(new Exception("Receiver cannot accept long operation"));
+
+        var sendCmd = new SendCommand(cmd.Object, receiver.Object);
+
+        var exception = Assert.Throws<Exception>(() => sendCmd.Execute());
+
+        Assert.Equal("Receiver cannot accept long operation", exception.Message);
     }
 }

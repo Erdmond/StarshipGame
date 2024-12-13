@@ -1,7 +1,7 @@
 namespace StarshipGame;
 using Hwdtech;
 
-public class SendCommand : ICommand
+public class SendCommand : Hwdtech.ICommand
 {
     private Hwdtech.ICommand _Cmd;
     private ICommandReceiver _Reciever;

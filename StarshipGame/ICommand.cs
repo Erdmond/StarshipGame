@@ -1,2 +1,2 @@
 ﻿global using Hwdtech;
-global using Hwdtech.ICommand;
+global using static Hwdtech.ICommand;

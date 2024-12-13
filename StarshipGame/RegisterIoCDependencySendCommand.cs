@@ -1,0 +1,16 @@
+using Hwdtech;
+using Hwdtech.Ioc;
+
+namespace StarshipGame;
+
+public class RegisterIoCDependencySendCommand : Hwdtech.ICommand
+{
+    public void Execute()
+    {
+        IoC.Resolve<Hwdtech.ICommand>(
+        "IoC.Register",
+        "SendCommand.Create",
+        (object[] args) => new SendCommand((Hwdtech.ICommand)args[0], (ICommandReceiver)args[1]))
+        .Execute();
+    }
+}

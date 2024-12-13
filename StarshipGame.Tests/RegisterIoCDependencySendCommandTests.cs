@@ -19,7 +19,7 @@ public class RegisterIoCDependencySendCommandTests
 
         var cmd = new Mock<Hwdtech.ICommand>();
         var receiver = new Mock<ICommandReceiver>();
-        var sendCommand = IoC.Resolve<Hwdtech.ICommand>("SendCommand.Create", cmd.Object, receiver.Object);
+        var sendCommand = IoC.Resolve<Hwdtech.ICommand>("Commands.Send", cmd.Object, receiver.Object);
 
         Assert.NotNull(sendCommand);
         Assert.IsType<SendCommand>(sendCommand);

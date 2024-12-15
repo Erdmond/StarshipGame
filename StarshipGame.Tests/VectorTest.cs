@@ -79,8 +79,6 @@ public class VectorTest
     {
         Vector v1 = new Vector(new int[] { 1, 2 });
         int hashCode = v1.GetHashCode();
-
-        Assert.NotNull(hashCode);
         Assert.NotEqual(0, hashCode);
     }
 }

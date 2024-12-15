@@ -18,7 +18,7 @@ public class RegisterIoCDependencyActionsStopTests
         registerCommand.Execute();
 
         var mockDictionary = new Mock<IDictionary>();
-        
+
         var actionStop = IoC.Resolve<StarshipGame.ICommand>("Actions.Stop", mockDictionary.Object);
 
         Assert.NotNull(actionStop);

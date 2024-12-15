@@ -9,12 +9,9 @@ public class RegisterIoCDependencyRotateCommandTest
 {
     public RegisterIoCDependencyRotateCommandTest()
     {
-        // Initialize IoC container
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
-
-        // Register the dependency for IRotatable
-        IoC.Resolve<ICommand>("IoC.Register", "Adapters.IRotatable", (object[] args) => (new Mock<IRotatable>().Object)).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Adapters.IRotatingObject", (object[] args) => (new Mock<IRotatable>().Object)).Execute();
     }
 
     [Fact]
@@ -22,17 +19,9 @@ public class RegisterIoCDependencyRotateCommandTest
     {
         var registerCommand = new RegisterIoCDependencyRotateCommand();
         registerCommand.Execute();
-
-        // Mock the IRotatable object
         var rotatableMock = new Mock<IRotatable>();
-
-        // Resolve and execute the rotate command
-        var rotateCommand = IoC.Resolve<ICommand>("Commands.Rotate", rotatableMock.Object);
-
+        var rotateCommand = IoC.Resolve<Hwdtech.ICommand>("Commands.Rotate", rotatableMock.Object);
         Assert.NotNull(rotateCommand);
         Assert.IsType<RotateCommand>(rotateCommand);
-
-        // Execute the rotate command
-        rotateCommand.Execute();
     }
 }

@@ -10,7 +10,7 @@ public class RotateTest
         Mock<IRotatable> mock = new Mock<IRotatable>();
         mock.SetupGet(m => m.Angle).Returns(() => new Angle(45));
         mock.SetupGet(m => m.AngleVelocity).Returns(() => new Angle(45));
-        ICommand rotate = new RotateCommand(mock.Object);
+        Hwdtech.ICommand rotate = new RotateCommand(mock.Object);
 
         rotate.Execute();
 
@@ -23,7 +23,7 @@ public class RotateTest
         Mock<IRotatable> mock = new Mock<IRotatable>();
         mock.SetupGet(m => m.Angle).Throws(new Exception("Cannot read angle"));
         mock.SetupGet(m => m.AngleVelocity).Returns(() => new Angle(90));
-        ICommand rotate = new RotateCommand(mock.Object);
+        Hwdtech.ICommand rotate = new RotateCommand(mock.Object);
 
         Assert.Throws<Exception>(rotate.Execute);
     }
@@ -34,7 +34,7 @@ public class RotateTest
         Mock<IRotatable> mock = new Mock<IRotatable>();
         mock.SetupGet(m => m.Angle).Returns(() => new Angle(45));
         mock.SetupGet(m => m.AngleVelocity).Throws(new Exception("Cannot read velocity"));
-        ICommand rotate = new RotateCommand(mock.Object);
+        Hwdtech.ICommand rotate = new RotateCommand(mock.Object);
 
         Assert.Throws<Exception>(rotate.Execute);
     }
@@ -46,7 +46,7 @@ public class RotateTest
         mock.SetupGet(m => m.Angle).Returns(() => new Angle(45));
         mock.SetupGet(m => m.AngleVelocity).Returns(() => new Angle(45));
         mock.SetupSet(m => m.Angle = It.IsAny<Angle>()).Throws(new Exception("Cannot set angle"));
-        ICommand rotate = new RotateCommand(mock.Object);
+        Hwdtech.ICommand rotate = new RotateCommand(mock.Object);
 
         Assert.Throws<Exception>(rotate.Execute);
     }

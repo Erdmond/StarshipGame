@@ -1,6 +1,7 @@
 namespace StarshipGame;
+using Hwdtech;
 
-public class RotateCommand : ICommand
+public class RotateCommand : Hwdtech.ICommand
 {
     private IRotatable Obj;
 

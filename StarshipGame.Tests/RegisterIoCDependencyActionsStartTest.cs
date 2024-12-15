@@ -15,7 +15,7 @@ public class RegisterIoCDependencyActionsStart
     [Fact]
     public void Execute_ShouldResolveDependency_WhenInvoked()
     {
-        var registerCommand = new RegisterIoCDependencyActionsStop();
+        var registerCommand = new RegisterIoCDependencyActionsStart();
         registerCommand.Execute();
 
         var mockDictionary = new Mock<IDictionary>();

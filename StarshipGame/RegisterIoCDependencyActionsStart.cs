@@ -5,7 +5,7 @@ public class RegisterIoCDependencyActionsStart : ICommand
 {
     public void Execute()
     {
-        IoC.Resolve<ICommand>(
+        IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Actions.Start",
             (object[] args) => args[0]

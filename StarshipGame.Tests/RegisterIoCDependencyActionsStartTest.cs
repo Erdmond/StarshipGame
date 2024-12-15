@@ -19,7 +19,7 @@ public class RegisterIoCDependencyActionsStartTest
         registerCommand.Execute();
 
         var mockDictionary = new Mock<IDictionary>();
-        
+
         var actionStart = IoC.Resolve<StarshipGame.ICommand>("Actions.Start", mockDictionary.Object);
 
         Assert.NotNull(actionStart);

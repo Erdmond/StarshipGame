@@ -16,7 +16,7 @@ public class IoCCommandInjectableCommand
     public void GenericVariantsOfCommandInjectableDoesNotExcept()
     {
         new RegisterCommandInjectableCommand().Execute();
-        
+
         IoC.Resolve<Hwdtech.ICommand>("Commands.CommandInjectable");
         IoC.Resolve<ICommandInjectable>("Commands.CommandInjectable");
         IoC.Resolve<CommandInjectableCommand>("Commands.CommandInjectable");

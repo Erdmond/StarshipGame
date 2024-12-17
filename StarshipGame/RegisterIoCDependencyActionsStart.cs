@@ -1,14 +1,14 @@
 namespace StarshipGame;
 using Hwdtech;
 
-public class RegisterIoCDependencyActionsStart : ICommand
+public class RegisterIoCDependencyActionsStart : Hwdtech.ICommand
 {
     public void Execute()
     {
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Actions.Start",
-            (object[] args) => args[0]
+            (object[] args) => IoC.Resolve<Hwdtech.ICommand>("Commands.Macro", args)
         ).Execute();
     }
 }

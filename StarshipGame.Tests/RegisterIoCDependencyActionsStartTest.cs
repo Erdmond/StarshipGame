@@ -8,8 +8,9 @@ public class RegisterIoCDependencyActionsStartTest
     public RegisterIoCDependencyActionsStartTest()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Macro", (object[] args) => (new Mock<ICommand>().Object)).Execute();
     }
 
     [Fact]
@@ -18,11 +19,11 @@ public class RegisterIoCDependencyActionsStartTest
         var registerCommand = new RegisterIoCDependencyActionsStart();
         registerCommand.Execute();
 
-        var mockDictionary = new Mock<IDictionary>();
+        var mockDictionary = new Mock<IDictionary<string, object>>();
 
-        var actionStart = IoC.Resolve<StarshipGame.ICommand>("Actions.Start", mockDictionary.Object);
+        var actionStart = IoC.Resolve<Hwdtech.ICommand>("Actions.Start", mockDictionary.Object);
 
         Assert.NotNull(actionStart);
-        Assert.IsAssignableFrom<StarshipGame.ICommand>(actionStart);
+        Assert.IsAssignableFrom<Hwdtech.ICommand>(actionStart);
     }
 }

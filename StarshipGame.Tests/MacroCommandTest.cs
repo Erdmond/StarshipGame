@@ -14,11 +14,10 @@ public class MacroCommandTest
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.GetICommandsFromArgs",
-            (object[] args) => args.ToList().Select(c => (Hwdtech.ICommand)c).ToArray()).Execute();
+
+            (object[] args) => args.Select(c => (Hwdtech.ICommand)c).ToList()).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Macro",
-                (object[] args) =>
-                    new MacroCommand(IoC.Resolve<Hwdtech.ICommand[]>("Commands.GetICommandsFromArgs", args)))
-            .Execute();
+            (object[] args) => new MacroCommand(IoC.Resolve<List<Hwdtech.ICommand>>("Commands.GetICommandsFromArgs", args))).Execute();
     }
 
     [Fact]

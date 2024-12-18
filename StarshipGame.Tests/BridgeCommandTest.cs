@@ -7,7 +7,7 @@ public class BridgeCommandTest
     [Fact]
     public void InjectedCommandHasBeenExecuted()
     {
-        Mock<ICommand> innerCommand = new Mock<ICommand>();
+        Mock<Hwdtech.ICommand> innerCommand = new Mock<Hwdtech.ICommand>();
         innerCommand.Setup(e => e.Execute());
         BridgeCommand cmd = new BridgeCommand();
 

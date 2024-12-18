@@ -2,14 +2,14 @@
 
 namespace StarshipGame.Tests;
 
-public class BridgeCommandTest
+public class CommandInjectableCommandTest
 {
     [Fact]
     public void InjectedCommandHasBeenExecuted()
     {
-        Mock<ICommand> innerCommand = new Mock<ICommand>();
+        Mock<Hwdtech.ICommand> innerCommand = new Mock<Hwdtech.ICommand>();
         innerCommand.Setup(e => e.Execute());
-        BridgeCommand cmd = new BridgeCommand();
+        CommandInjectableCommand cmd = new CommandInjectableCommand();
 
         cmd.Inject(innerCommand.Object);
         cmd.Execute();
@@ -20,7 +20,7 @@ public class BridgeCommandTest
     [Fact]
     public void NotSetInnerCommandThrows()
     {
-        BridgeCommand cmd = new BridgeCommand();
+        CommandInjectableCommand cmd = new CommandInjectableCommand();
         Assert.Throws<NullReferenceException>(() => cmd.Execute());
     }
 }

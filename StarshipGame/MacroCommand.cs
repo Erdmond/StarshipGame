@@ -4,15 +4,19 @@ namespace StarshipGame;
 
 public class MacroCommand : Hwdtech.ICommand
 {
-    private Hwdtech.ICommand[] cmds;
 
-    public MacroCommand(Hwdtech.ICommand[] cmds)
+    private List<Hwdtech.ICommand> cmds;
+
+    public MacroCommand(List<Hwdtech.ICommand> cmds)
+
     {
         this.cmds = cmds;
     }
 
     public void Execute()
     {
-        cmds.ToList().ForEach(c => c.Execute());
+
+        cmds.ForEach(c => c.Execute());
+
     }
 }

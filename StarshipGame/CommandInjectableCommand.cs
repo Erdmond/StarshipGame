@@ -1,6 +1,6 @@
 ﻿namespace StarshipGame;
 
-public class BridgeCommand : Hwdtech.ICommand, ICommandInjectable
+public class CommandInjectableCommand : Hwdtech.ICommand, ICommandInjectable
 {
     private Hwdtech.ICommand cmd;
 

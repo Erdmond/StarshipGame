@@ -42,18 +42,13 @@ public class Angle
         return (Numerator % denominator).GetHashCode();
     }
 
-    public double Sin()
-    {
-        return Math.Sin(ToRadians());
-    }
-
-    public double Cos()
-    {
-        return Math.Cos(ToRadians());
-    }
-
     private double ToRadians()
     {
         return (Numerator * Math.PI * 2) / denominator;
+    }
+
+    public static implicit operator double(Angle angle)
+    {
+        return angle.ToRadians();
     }
 }

@@ -2,16 +2,18 @@ namespace StarshipGame;
 
 public class ShootCommand : ICommand
 {
-    private readonly IObjectInfo _objectInfo;
+    private readonly IObjectInfo _playerInfo;
+    private readonly IObjectInfo _shooterInfo;
 
-    public ShootCommand(IObjectInfo objectInfo) => _objectInfo = objectInfo;
+    public ShootCommand(IObjectInfo playerInfo, IObjectInfo shooterInfo)
+    {
+        _playerInfo = playerInfo;
+        _shooterInfo = shooterInfo;
+    }
 
     public void Execute()
     {
-        ICommand authCommand = IoC.Resolve<ICommand>("Commands.Auth", _objectInfo);
-        ICommand createTorpedoCommand = IoC.Resolve<ICommand>("Commands.CreateTorpedo", _objectInfo);
-        ICommand macroCommand = IoC.Resolve<ICommand>("Commands.Macro", new object[] { authCommand, createTorpedoCommand });
-
-        IoC.Resolve<ICommand>("Game.EnqueueCommand", macroCommand).Execute();
+        ICommand shootStrategy = IoC.Resolve<ICommand>("Commands.ShootStrategy", _playerInfo, _shooterInfo);
+        shootStrategy.Execute();
     }
 }

@@ -17,8 +17,10 @@ public class RegisterIoCDependencyShootCommandTests
         var registerCommand = new RegisterIoCDependencyShootCommand();
         registerCommand.Execute();
 
-        var objectInfo = new Mock<IObjectInfo>().Object;
-        var shootCommand = IoC.Resolve<ICommand>("Commands.Shoot", objectInfo);
+        var playerInfo = new Mock<IObjectInfo>().Object;
+        var shooterInfo = new Mock<IObjectInfo>().Object;
+
+        var shootCommand = IoC.Resolve<ICommand>("Commands.Shoot", playerInfo, shooterInfo);
 
         Assert.NotNull(shootCommand);
         Assert.IsType<ShootCommand>(shootCommand);

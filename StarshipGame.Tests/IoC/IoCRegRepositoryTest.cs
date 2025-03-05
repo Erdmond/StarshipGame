@@ -10,7 +10,7 @@ public class IoCRegRepositoryTest
         new InitScopeBasedIoCImplementationCommand().Execute();
         IoC.Resolve<ICommand>("Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
-        
+
         new IoCRegRepository().Execute();
     }
 
@@ -35,10 +35,10 @@ public class IoCRegRepositoryTest
         Mock<IObjectInfo> objectInfo = new Mock<IObjectInfo>();
         objectInfo.SetupGet(m => m.ObjectId).Throws(new InvalidOperationException());
 
-        Assert.Throws<InvalidOperationException>(() => 
+        Assert.Throws<InvalidOperationException>(() =>
             IoC.Resolve<ICommand>("GameItem.Add", objectInfo.Object).Execute());
     }
-    
+
     [Fact]
     public void ObjectWithoutPlayerIdThrows()
     {
@@ -46,7 +46,7 @@ public class IoCRegRepositoryTest
         objectInfo.Setup(m => m.ObjectId).Returns("ship");
         objectInfo.SetupGet(m => m.PlayerId).Throws(new InvalidOperationException());
 
-        Assert.Throws<InvalidOperationException>(() => 
+        Assert.Throws<InvalidOperationException>(() =>
             IoC.Resolve<ICommand>("GameItem.Add", objectInfo.Object).Execute());
     }
 }

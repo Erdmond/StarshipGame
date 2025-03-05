@@ -1,6 +1,6 @@
 ﻿namespace StarshipGame;
 
-public class RunnableCommand(Action act): ICommand
+public class RunnableCommand(Action act) : ICommand
 {
     public void Execute()
     {

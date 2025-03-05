@@ -26,4 +26,4 @@ public class RegisterAuthCommandTests
         Assert.NotNull(authCommand);
         Assert.IsType<AuthCommand>(authCommand);
     }
-} 
+}

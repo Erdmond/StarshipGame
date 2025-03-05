@@ -8,13 +8,13 @@ public class AuthCommand : ICommand
     public AuthCommand(IObjectInfo playerInfo, IObjectInfo targetObjectInfo)
     {
         _playerInfo = playerInfo;
-        _targetObjectInfo = targetObjectInfo; 
+        _targetObjectInfo = targetObjectInfo;
     }
 
     public void Execute()
     {
         var allowedObjects = IoC.Resolve<IEnumerable<IObjectInfo>>(
-            "GameItem.GetByPlayerId", 
+            "GameItem.GetByPlayerId",
             _playerInfo.PlayerId
         );
 

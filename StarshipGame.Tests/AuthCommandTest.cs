@@ -9,7 +9,7 @@ public class AuthCommandTests
     public AuthCommandTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<ICommand>("Scopes.Current.Set", 
+        IoC.Resolve<ICommand>("Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
     }
@@ -27,12 +27,12 @@ public class AuthCommandTests
         var targetMock = new Mock<IObjectInfo>();
         targetMock.Setup(t => t.ObjectId).Returns(targetObjectId);
         targetMock.Setup(t => t.PlayerId).Returns(playerId);
-        
+
         var allowedObjectMock = new Mock<IObjectInfo>();
         allowedObjectMock.Setup(a => a.PlayerId).Returns(playerId);
         allowedObjectMock.Setup(a => a.ObjectId).Returns(targetObjectId);
 
-        IoC.Resolve<ICommand>("IoC.Register", "GameItem.GetByPlayerId", 
+        IoC.Resolve<ICommand>("IoC.Register", "GameItem.GetByPlayerId",
             (object[] args) => args[0].Equals(playerId) ? new[] { allowedObjectMock.Object } : Enumerable.Empty<IObjectInfo>()
         ).Execute();
 
@@ -57,7 +57,7 @@ public class AuthCommandTests
         targetMock.Setup(t => t.ObjectId).Returns(targetObjectId);
         targetMock.Setup(t => t.PlayerId).Returns(playerId);
 
-        IoC.Resolve<ICommand>("IoC.Register", "GameItem.GetByPlayerId", 
+        IoC.Resolve<ICommand>("IoC.Register", "GameItem.GetByPlayerId",
             (object[] args) => args[0].Equals(playerId) ? Enumerable.Empty<IObjectInfo>() : throw new Exception("Wrong player ID")
         ).Execute();
 

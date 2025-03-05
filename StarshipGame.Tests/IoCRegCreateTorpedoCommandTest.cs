@@ -18,6 +18,9 @@ public class RegisterIoCDependencyTorpedoCommandTest
         registerCommand.Execute();
 
         var movablyMock = new Mock<IMovable>();
+        var vectorMock = new Vector (new int[] {0, 0});
+        movablyMock.Setup(m => m.Position).Returns(vectorMock);
+        movablyMock.Setup(m => m.Velocity).Returns(vectorMock);
 
         var createTorpedo = IoC.Resolve<IMovable>("Commands.Create.Torpedo", movablyMock.Object);
 

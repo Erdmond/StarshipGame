@@ -2,6 +2,6 @@
 
 public interface IObjectInfo
 {
-    object ObjectId { get; }
-    object PlayerId { get; }
+    public object ObjectId { get; }
+    public object PlayerId { get; set; }
 }

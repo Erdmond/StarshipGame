@@ -1,7 +1,7 @@
 ﻿namespace StarshipGame;
 
-public class IObjectInfo
+public interface IObjectInfo
 {
-    public string ObjectId { get; }
-    public int PlayerId { get; set; }
+    public object ObjectId { get; }
+    public object PlayerId { get; set; }
 }

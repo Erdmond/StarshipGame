@@ -25,6 +25,6 @@ public class RegisterIoCDependencyTorpedoCommandTest
         var createTorpedo = IoC.Resolve<IMovable>("Commands.Create.Torpedo", movablyMock.Object);
 
         Assert.NotNull(createTorpedo);
-        Assert.IsType<IMovable>(createTorpedo);
+        Assert.True(typeof(IMovable).IsAssignableFrom(createTorpedo.GetType()));
     }
 }

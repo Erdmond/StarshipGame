@@ -6,8 +6,8 @@ public class TorpedoTests
     [Fact]
     public void CorrectTorpedoCreate()
     {
-        var pos = new Vector (new int[] {0, 0});
-        var vel = new Vector (new int[] {0, 0});
+        var pos = new Vector(new int[] { 0, 0 });
+        var vel = new Vector(new int[] { 0, 0 });
 
         var torpedo = new Torpedo(pos, vel);
 

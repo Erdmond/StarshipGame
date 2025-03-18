@@ -4,6 +4,7 @@ using Moq;
 using Xunit;
 
 namespace StarshipGame.Tests;
+
 public class GameCommandTest
 {
     public GameCommandTest()
@@ -25,9 +26,10 @@ public class GameCommandTest
         var eventLoopMock = new Mock<ICommand>();
         eventLoopMock.Setup(cmd => cmd.Execute());
 
-        IoC.Resolve<ICommand>("Game.Initialize",
-            () => cycleCount++ < 3, eventLoopMock.Object, () => commandQueue.Dequeue(),
-            (ICommand cmd) => new RunnableCommand(() => commandQueue.Enqueue(cmd))).Execute();
+        IoC.Resolve<ICommand>("Game.Initialize", () => cycleCount++ < 3, eventLoopMock.Object,
+            () => commandQueue.Dequeue(),
+            (ICommand cmd) => new RunnableCommand(() => commandQueue.Enqueue(cmd))
+        ).Execute();
 
         eventLoopMock.Verify(cmd => cmd.Execute(), Times.AtLeastOnce());
     }

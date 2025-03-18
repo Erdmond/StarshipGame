@@ -20,7 +20,7 @@ public class IoCRegGameInitializationCommand : ICommand
                     (object[] ar) => ((Func<ICommand>)args[2])()).Execute();
 
                 IoC.Resolve<ICommand>("IoC.Register", "Queue.Push",
-                    (object[] ar) => ((Func<ICommand, ICommand>)args[3])((ICommand) ar[0])).Execute();
+                    (object[] ar) => ((Func<ICommand, ICommand>)args[3])((ICommand)ar[0])).Execute();
 
                 var game = new GameCommand(gameScope);
                 IoC.Resolve<ICommand>("IoC.Register", "Game", (object[] args) => game).Execute();

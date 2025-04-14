@@ -25,7 +25,7 @@ class CollisionDataGenerator:
                         velocity = (dvx, dvy)
 
                         is_collision = CollisionDetector.check_dynamic_collision(moving_poly, velocity, static_poly)
-                        if is_collision: data.append([dx, dy, dvx, dvy, is_collision])
+                        if is_collision: data.append([dx, dy, dvx, dvy])
 
         with open(filename, 'w', newline='') as file:
             writer = csv.writer(file)

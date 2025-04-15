@@ -36,4 +36,4 @@ if __name__ == "__main__":
     moving_shape = [(-0.5, -0.5), (0.5, -0.5), (0.5, 0.5), (-0.5, 0.5)]
 
     generator = CollisionDataGenerator(static_shape, moving_shape, max_vel=10)
-    generator.generate("data/collisions.csv")
+    generator.generate(f"data/collisions_max_speed_{generator.max_vel}.csv")

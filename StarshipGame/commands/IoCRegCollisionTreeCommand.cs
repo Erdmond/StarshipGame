@@ -8,8 +8,7 @@ public class RegisterIoCDependencyGameCollisionTreeCommand : Hwdtech.ICommand
 {
     public void Execute()
     {
-        var csvPath = GetCollisionFilePath();
-        var collisionTree = LoadCollisionTree(csvPath);
+        var collisionTree = LoadCollisionTree(IoC.Resolve<string>("Collision.FilePath"));
 
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
@@ -57,20 +56,5 @@ public class RegisterIoCDependencyGameCollisionTreeCommand : Hwdtech.ICommand
         }
 
         return tree;
-    }
-
-    private string GetCollisionFilePath()
-    {
-        var baseDir = AppContext.BaseDirectory;
-
-        var relativePath = @"..\..\..\..\data\collisions.csv";
-        var fullPath = Path.GetFullPath(Path.Combine(baseDir, relativePath));
-
-        if (!File.Exists(fullPath))
-        {
-            throw new FileNotFoundException($"Collisions file not found at: {fullPath}");
-        }
-
-        return fullPath;
     }
 }

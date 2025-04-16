@@ -9,6 +9,7 @@ public class GridCollisionCheckCommand(IMovable currentObject, GridFieldStructur
 
         // если коллизия - то будет исключение, я его не трогаю 
         grid.Get(currentObject.Position)
+            .FindAll(o => o != currentObject)
             .ForEach(o => IoC.Resolve<object>("Commands.CollisionCheck", currentObject, o));
     }
 }

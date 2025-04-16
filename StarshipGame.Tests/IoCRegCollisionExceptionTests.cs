@@ -20,8 +20,8 @@ public class RegisterIoCDependencyCollisionExceptionTests
         var obj1 = new Mock<ICollisionObject>();
         var obj2 = new Mock<ICollisionObject>();
 
-        obj1.Setup(o => o.Position).Returns(new Vector(new[] {1, 2}));
-        obj2.Setup(o => o.Position).Returns(new Vector(new[] {3, 4}));
+        obj1.Setup(o => o.Position).Returns(new Vector(new[] { 1, 2 }));
+        obj2.Setup(o => o.Position).Returns(new Vector(new[] { 3, 4 }));
 
         var exception = IoC.Resolve<CollisionDetectedException>("Exceptions.Collision", obj1.Object, obj2.Object);
 

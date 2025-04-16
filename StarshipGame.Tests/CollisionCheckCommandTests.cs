@@ -20,9 +20,9 @@ public class CollisionCheckCommandTests
         var obj1 = new Mock<ICollisionObject>();
         var obj2 = new Mock<ICollisionObject>();
         IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)true).Execute();
-        
+
         var command = new CollisionCheckCommand(obj1.Object, obj2.Object);
-        
+
         Assert.NotNull(command);
     }
 
@@ -39,9 +39,9 @@ public class CollisionCheckCommandTests
         var obj1 = new Mock<ICollisionObject>();
         var obj2 = new Mock<ICollisionObject>();
         IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)true).Execute();
-        
+
         var command = new CollisionCheckCommand(obj1.Object, obj2.Object);
-        
+
         Assert.Throws<Exception>(() => command.Execute());
     }
 
@@ -51,9 +51,9 @@ public class CollisionCheckCommandTests
         var obj1 = new Mock<ICollisionObject>();
         var obj2 = new Mock<ICollisionObject>();
         IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
-        
+
         var command = new CollisionCheckCommand(obj1.Object, obj2.Object);
-        
+
         command.Execute();
     }
 }

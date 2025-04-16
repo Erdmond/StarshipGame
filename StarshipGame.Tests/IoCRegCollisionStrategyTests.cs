@@ -19,10 +19,10 @@ public class RegisterIoCDependencyCollisionStrategyTests
         var collisionTree = new CollisionTree();
         IoC.Resolve<ICommand>("IoC.Register", "Game.Collision.Tree", (object[] _) => (object)collisionTree).Execute();
 
-        var pos1 = new Vector(new[] {1, 2});
-        var vel1 = new Vector(new[] {3, 4});
-        var pos2 = new Vector(new[] {5, 6});
-        var vel2 = new Vector(new[] {7, 8});
+        var pos1 = new Vector(new[] { 1, 2 });
+        var vel1 = new Vector(new[] { 3, 4 });
+        var pos2 = new Vector(new[] { 5, 6 });
+        var vel2 = new Vector(new[] { 7, 8 });
 
         var mockObj1 = new Mock<ICollisionObject>();
         var mockObj2 = new Mock<ICollisionObject>();

@@ -20,7 +20,7 @@ public class IoCRegGridCollisionCheckCommandTest
     [Fact]
     public void ObjectsInOneCellAndDontCollideAccept()
     {
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
 
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));
@@ -41,7 +41,7 @@ public class IoCRegGridCollisionCheckCommandTest
     [Fact]
     public void GridNotAddThrowsException()
     {
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
 
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));
@@ -59,7 +59,7 @@ public class IoCRegGridCollisionCheckCommandTest
     [Fact]
     public void OneObjectAndDontCollideAccept()
     {
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
 
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));

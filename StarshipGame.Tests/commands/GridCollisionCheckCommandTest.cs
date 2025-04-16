@@ -38,7 +38,7 @@ public class GridCollisionCheckCommandTest
     public void ObjectNotAddKeyAccept()
     {
         IoC.Resolve<ICommand>("IoC.Register", "Rules.GridWidth", (object[] args) => (object)10).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));
         mock1.SetupGet(m => m.Position).Returns(new Vector([1, 1]));
@@ -54,7 +54,7 @@ public class GridCollisionCheckCommandTest
     public void ObjectsInOneCellAndDontCollideAccept()
     {
         IoC.Resolve<ICommand>("IoC.Register", "Rules.GridWidth", (object[] args) => (object)10).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));
         mock1.SetupGet(m => m.Position).Returns(new Vector([1, 1]));
@@ -74,7 +74,7 @@ public class GridCollisionCheckCommandTest
     public void ObjectsInDifferentCellAndDontCollideAccept()
     {
         IoC.Resolve<ICommand>("IoC.Register", "Rules.GridWidth", (object[] args) => (object)10).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) => (object)false).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) => (object)false).Execute();
         Mock<IMovable> mock1 = new Mock<IMovable>();
         mock1.SetupGet(m => m.Velocity).Returns(new Vector([1, 1]));
         mock1.SetupGet(m => m.Position).Returns(new Vector([1, 1]));
@@ -94,7 +94,7 @@ public class GridCollisionCheckCommandTest
     public void ObjectsInOneCellAndCollideThrows()
     {
         IoC.Resolve<ICommand>("IoC.Register", "Rules.GridWidth", (object[] args) => (object)10).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Collision.Strategy", (object[] args) =>
+        IoC.Resolve<ICommand>("IoC.Register", "Commands.CollisionCheck", (object[] args) =>
         {
             throw new Exception("Collision");
             return (object)false; // просто для типов для IoC-a

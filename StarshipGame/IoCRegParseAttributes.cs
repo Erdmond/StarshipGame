@@ -1,4 +1,5 @@
 namespace StarshipGame;
+using System.Reflection;
 
 public class IoCRegParseAttributes : ICommand
 {
@@ -20,7 +21,7 @@ public class IoCRegParseAttributes : ICommand
                     Attr = attr 
                 }))
             .Where(x => x.Attr != null)
-            .GroupBy(x => (x.Attr.Name, x.Attr.isGet))
+            .GroupBy(x => (x.Attr.Name, x.Attr.IsGet))
             .ToDictionary(
                 g => g.Key,
                 g => $"{g.First().Type.Name}.{g.First().Method.Name}"

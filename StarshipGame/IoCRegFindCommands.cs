@@ -1,5 +1,6 @@
 namespace StarshipGame;
 using Hwdtech;
+using System.Reflection;
 
 public class RegisterIoCDependencyFindCommands : Hwdtech.ICommand
 {

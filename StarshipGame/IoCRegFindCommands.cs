@@ -1,11 +1,13 @@
+using System.Reflection;
+
 namespace StarshipGame;
 using Hwdtech;
 
-public class RegisterIoCDependencyActionsStart : Hwdtech.ICommand
+public class IoCRegFindCommands: ICommand
 {
     public void Execute()
     {
-        IoC.Resolve<Hwdtech.ICommand>(
+        IoC.Resolve<ICommand>(
             "IoC.Register",
             "Commands.FindCommands",
             (object[] args) => 

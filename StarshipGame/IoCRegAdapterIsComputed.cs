@@ -10,7 +10,8 @@ public class IoCRegAdapterIsComputed : ICommand
             (object[] args) => 
             {
                 var paramName = (string)args[0];
-                var interfaceName = (string)args[1];
+                
+                var isGet = (bool) args[1];
 
                 // по именам определяю вычислимо ли paramName в interfaceName
 
@@ -21,3 +22,6 @@ public class IoCRegAdapterIsComputed : ICommand
         ).Execute();
     }
 }
+
+
+

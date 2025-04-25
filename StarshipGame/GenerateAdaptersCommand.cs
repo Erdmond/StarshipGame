@@ -11,8 +11,9 @@ public class GenerateAdaptersCommand : ICommand
 
     public void Execute()
     {
+        // var dictNameTypeMethod = Ioc... Commands.ParseAttributes;
         var commandTypes = IoC.Resolve<List<Type>>("Commands.FindCommands");
-
+        
         // далее обработка этих типов, генерация адаптеров на их основе
     }
 }

@@ -12,7 +12,10 @@ public class IoCRegAdapterComputeMethod : ICommand
                 var paramName = (string)args[0];
                 var interfaceName = (string)args[1];
 
-                var computeMethod = new Function<>();
+                // var computeMethod = new Function<>();
+                var methodName = ""; // ClassName.Method
+                // (object)        - get
+                // (object, value) - set
 
                 return computeMethod;
             }

@@ -2,7 +2,7 @@ namespace StarshipGame;
 
 public class IoCRegAdapterComputeMethod : ICommand
 {
-    public Execute()
+    public void Execute()
     {
         IoC.Resolve<ICommand>(
             "IoC.Register",

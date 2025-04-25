@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace StarshipGame;
 
 public class IoCRegParseAttributes : ICommand

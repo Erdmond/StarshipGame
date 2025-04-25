@@ -2,26 +2,19 @@ namespace StarshipGame;
 
 public class IoCRegAdapterIsComputed : ICommand
 {
-    public Execute()
+    public void Execute()
     {
         IoC.Resolve<ICommand>(
             "IoC.Register",
             "Adapter.IsComputed",
             (object[] args) => 
             {
-                var paramName = (string)args[0];
+                var fieldName = (string)args[0];
+                var isGet = (bool)args[1];
                 
-                var isGet = (bool) args[1];
-
-                // по именам определяю вычислимо ли paramName в interfaceName
-
-                var isComputed = true; // bool значение определения
-
-                return isComputed;
+                var attributeMethods = IoC.Resolve<Dictionary<(string, bool), string>>("Commands.ParseAttributes");
+                return attributeMethods.ContainsKey((fieldName, isGet));
             }
         ).Execute();
     }
 }
-
-
-

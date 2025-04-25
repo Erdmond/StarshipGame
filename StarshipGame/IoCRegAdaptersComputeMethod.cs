@@ -9,15 +9,11 @@ public class IoCRegAdapterComputeMethod : ICommand
             "Adapter.ComputeMethod",
             (object[] args) =>
             {
-                var paramName = (string)args[0];
-                var interfaceName = (string)args[1];
-
-                // var computeMethod = new Function<>();
-                var methodName = ""; // ClassName.Method
-                // (object)        - get
-                // (object, value) - set
-
-                return computeMethod;
+                var fieldName = (string)args[0];
+                var isGet = (bool)args[1];
+                
+                var attributeMethods = IoC.Resolve<Dictionary<(string, bool), string>>("Commands.ParseAttributes");
+                return attributeMethods[(fieldName, isGet)];
             }
         ).Execute();
     }

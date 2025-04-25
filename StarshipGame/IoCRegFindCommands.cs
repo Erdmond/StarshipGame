@@ -1,7 +1,7 @@
 namespace StarshipGame;
 using Hwdtech;
 
-public class RegisterIoCDependencyActionsStart : Hwdtech.ICommand
+public class RegisterIoCDependencyFindCommands : Hwdtech.ICommand
 {
     public void Execute()
     {

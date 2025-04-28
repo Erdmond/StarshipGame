@@ -38,7 +38,7 @@ public class IoCRegMakeAdapterCommand : ICommand
 
             string fieldsInString = string.Join(" ", fieldValues);
 
-            return Template.ParseLiquid("class {{name}}Adapter(IDictionary<object, object> startObject): {{interfaceName}} { {{fields}} }")
+            return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { IDictionary<object, object> startObject; public {{name}}Adapter(IDictionary<object, object> _startObject) { startObject = _startObject; }  {{fields}} }")
                 .Render(new
                 {
                     Name = interfaceName.Substring(1), IntefaceName = interfaceName, Fields = fieldsInString

@@ -13,7 +13,7 @@ public class GenerateAdaptersCommand : ICommand
     {
         var dictNameTypeMethod = IoC.Resolve<Dictionary<(string, bool), string>>("Commands.ParseAttributes");
         var commandTypes = IoC.Resolve<List<Type>>("Commands.FindCommands");
-        
+
         // далее обработка этих типов, генерация адаптеров на их основе
     }
 }

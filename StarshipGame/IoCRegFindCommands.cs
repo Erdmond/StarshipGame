@@ -9,7 +9,7 @@ public class RegisterIoCDependencyFindCommands : Hwdtech.ICommand
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Commands.FindCommands",
-            (object[] args) => 
+            (object[] args) =>
             {
                 var commandTypes = AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(assembly => assembly.GetTypes())
@@ -17,7 +17,7 @@ public class RegisterIoCDependencyFindCommands : Hwdtech.ICommand
                     .Where(t => t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                         .All(cn => cn.GetParameters().Length == 1 && cn.GetParameters()[0].ParameterType.IsInterface))
                     .ToList();
-                
+
                 return commandTypes;
             }
         ).Execute();

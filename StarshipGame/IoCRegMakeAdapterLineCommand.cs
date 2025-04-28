@@ -24,7 +24,7 @@ public class IoCRegMakeAdapterCommand : ICommand
                     string getter = field.IsDefaultGetter
                         ? Getter(field.Type, field.Name)
                         : CustomGetter(field.CustomGetter);
-                    
+
                     string setter;
                     if (field.NeedSetter)
                         setter = field.IsDefaultSetter
@@ -41,7 +41,9 @@ public class IoCRegMakeAdapterCommand : ICommand
             return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { IDictionary<object, object> startObject; public {{name}}Adapter(IDictionary<object, object> _startObject) { startObject = _startObject; }  {{fields}} }")
                 .Render(new
                 {
-                    Name = interfaceName.Substring(1), IntefaceName = interfaceName, Fields = fieldsInString
+                    Name = interfaceName.Substring(1),
+                    IntefaceName = interfaceName,
+                    Fields = fieldsInString
                 });
         }).Execute();
     }

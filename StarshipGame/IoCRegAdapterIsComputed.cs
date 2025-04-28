@@ -7,11 +7,11 @@ public class IoCRegAdapterIsComputed : ICommand
         IoC.Resolve<ICommand>(
             "IoC.Register",
             "Adapter.IsComputed",
-            (object[] args) => 
+            (object[] args) =>
             {
                 var fieldName = (string)args[0];
                 var isGet = (bool)args[1];
-                
+
                 var attributeMethods = IoC.Resolve<Dictionary<(string, bool), string>>("Commands.ParseAttributes");
                 return attributeMethods.ContainsKey((fieldName, isGet));
             }

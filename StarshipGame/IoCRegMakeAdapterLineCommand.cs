@@ -32,7 +32,7 @@ public class IoCRegMakeAdapterCommand : ICommand
                             : CustomSetter(field.CustomSetter);
                     else setter = "";
 
-                    return Template.ParseLiquid("public {{type}} {{name}} { {{getter}} {{setter}} }")
+                    return Template.ParseLiquid("public {{type}} {{name}}(IDictionary<object, object> startObject) { {{getter}} {{setter}} }")
                         .Render(new { Type = field.Type, Name = field.Name, Getter = getter, Setter = setter });
                 }).ToArray();
 

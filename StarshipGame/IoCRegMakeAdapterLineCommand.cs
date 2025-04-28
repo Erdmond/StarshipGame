@@ -8,7 +8,8 @@ public class IoCRegMakeAdapterCommand : ICommand
     {
         IoC.Resolve<ICommand>("IoC.Register", "Adapters.MakeField", (object[] args) =>
                 new Field((string)args[0], (string)args[1], (bool)args[2],
-                    (bool)args[3], (string)args[4], (string)args[5]))
+                    (bool)args[3], (string)args[4], (string)args[5],
+                    (bool)args[6]))
             .Execute();
 
         // interface, fields[]
@@ -23,18 +24,25 @@ public class IoCRegMakeAdapterCommand : ICommand
                     string getter = field.IsDefaultGetter
                         ? Getter(field.Type, field.Name)
                         : CustomGetter(field.CustomGetter);
-                    string setter = field.IsDefaultSetter
-                        ? Setter(field.Type, field.Name)
-                        : CustomSetter(field.CustomSetter);
+                    
+                    string setter;
+                    if (field.NeedSetter)
+                        setter = field.IsDefaultSetter
+                            ? Setter(field.Type, field.Name)
+                            : CustomSetter(field.CustomSetter);
+                    else setter = "";
 
                     return Template.ParseLiquid("public {{type}} {{name}} { {{getter}} {{setter}} }")
                         .Render(new { Type = field.Type, Name = field.Name, Getter = getter, Setter = setter });
                 }).ToArray();
-            
+
             string fieldsInString = string.Join(" ", fieldValues);
 
             return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { {{fields}} }")
-                .Render(new {Name = interfaceName.Substring(1), IntefaceName = interfaceName, Fields = fieldsInString});
+                .Render(new
+                {
+                    Name = interfaceName.Substring(1), IntefaceName = interfaceName, Fields = fieldsInString
+                });
         }).Execute();
     }
 

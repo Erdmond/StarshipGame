@@ -6,7 +6,8 @@ public class Field(
     bool isDefaultGetter,
     bool isDefaultSetter,
     string? customGetter,
-    string? customSetter)
+    string? customSetter,
+    bool needSetter)
 {
     public string Type => type;
     public string Name => name;
@@ -14,4 +15,5 @@ public class Field(
     public bool IsDefaultSetter => isDefaultSetter;
     public string? CustomGetter => customGetter;
     public string? CustomSetter => customSetter;
+    public bool NeedSetter => needSetter;
 }

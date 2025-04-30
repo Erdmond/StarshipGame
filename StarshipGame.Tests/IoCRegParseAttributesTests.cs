@@ -1,15 +1,13 @@
 namespace StarshipGame.Tests;
-using Moq;
 using Hwdtech;
 using Hwdtech.Ioc;
-using System.Reflection;
-/*
+
 public class IoCRegParseAttributesTests
 {
     public IoCRegParseAttributesTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
     }
 
     private class TestClass
@@ -21,9 +19,7 @@ public class IoCRegParseAttributesTests
     [Fact]
     public void Execute_ShouldRegisterAttributesDictionary()
     {
-        var command = new IoCRegParseAttributes();
-
-        command.Execute();
+        new IoCRegParseAttributes().Execute();
 
         var registeredCommand = IoC.Resolve<IDictionary<(string, bool), string>>("Commands.ParseAttributes");
         Assert.NotNull(registeredCommand);
@@ -76,26 +72,3 @@ public class IoCRegParseAttributesTests
         Assert.Single(result.Where(kv => kv.Key == key));
     }
 }
-
-// Вспомогательный класс для регистрации зависимостей
-public class RegisterDependencyCommand : Hwdtech.ICommand
-{
-    private readonly string _key;
-    private readonly object _dependency;
-    
-    public RegisterDependencyCommand(string key, object dependency)
-    {
-        _key = key;
-        _dependency = dependency;
-    }
-    
-    public void Execute()
-    {
-        IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register",
-            _key,
-            (object[] args) => _dependency
-        ).Execute();
-    }
-}
-*/

@@ -38,7 +38,7 @@ public class IoCRegMakeAdapterCommand : ICommand
 
             string fieldsInString = string.Join(" ", fieldValues);
 
-            return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { IDictionary<object, object> startObject; public {{name}}Adapter(IDictionary<object, object> _startObject) { startObject = _startObject; }  {{fields}} }")
+            return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { IDictionary<object, object> startObject; public {{name}}Adapter(IDictionary<object, object> _startObject) { startObject = _startObject; }  {{fields}} }  class {{name}}Factory: IFactory { public object Adapt(IDictionary<object, object> startObject) { return {{name}}Adapter(startObject); }  }")
                 .Render(new
                 {
                     Name = interfaceName.Substring(1),

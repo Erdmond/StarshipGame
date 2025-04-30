@@ -37,8 +37,22 @@ public class IoCRegMakeAdapterCommand : ICommand
                 }).ToArray();
 
             string fieldsInString = string.Join(" ", fieldValues);
+            
+            return Template.ParseLiquid(@"class {{name}}Adapter: {{interfaceName}} { 
+                IDictionary<object, object> startObject; 
+                public {{name}}Adapter(IDictionary<object, object> _startObject) 
+                { startObject = _startObject; } 
 
-            return Template.ParseLiquid("class {{name}}Adapter: {{interfaceName}} { IDictionary<object, object> startObject; public {{name}}Adapter(IDictionary<object, object> _startObject) { startObject = _startObject; }  {{fields}} }  class {{name}}Factory: IFactory { public object Adapt(IDictionary<object, object> startObject) { return {{name}}Adapter(startObject); }  }")
+                {{fields}} 
+                }  
+                class {{name}}Factory: IFactory, ICommand
+                { 
+                public object Adapt(IDictionary<object, object> startObject) 
+                { return {{name}}Adapter(startObject); } 
+
+                public void Execute() 
+                { IoC.Resolve<ICommand>(""IoC.Register"", ""Adapters.{{interfaceName}}"", (object[] args) => this.Adapt((IDictionary<object, object>) args[0])).Execute(); } 
+                }")
                 .Render(new
                 {
                     Name = interfaceName.Substring(1),

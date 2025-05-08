@@ -1,8 +1,6 @@
 namespace StarshipGame;
 
 using Hwdtech;
-using System.Reflection;
-
 public class IoCRegActivateAdaptersCommand : ICommand
 {
     public void Execute()

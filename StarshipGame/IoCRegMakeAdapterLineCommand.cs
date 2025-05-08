@@ -15,6 +15,9 @@ public class IoCRegMakeAdapterCommand : ICommand
         // interface, fields[]
         IoC.Resolve<ICommand>("IoC.Register", "Adapters.CreateAdapter", (object[] args) =>
         {
+            if (((string)args[0]).Length < 2)
+                throw new ArgumentException("Wrong Naming");
+            
             string interfaceName = (string)args[0];
             Field[] fields = (Field[])args[1];
 
@@ -38,7 +41,7 @@ public class IoCRegMakeAdapterCommand : ICommand
 
             string fieldsInString = string.Join(" ", fieldValues);
             
-            return Template.ParseLiquid(@"class {{name}}Adapter: {{interfaceName}} { 
+            return Template.ParseLiquid(@"class {{name}}Adapter: I{{name}} { 
                 IDictionary<object, object> startObject; 
                 public {{name}}Adapter(IDictionary<object, object> _startObject) 
                 { startObject = _startObject; } 
@@ -48,15 +51,15 @@ public class IoCRegMakeAdapterCommand : ICommand
                 class {{name}}Factory: IFactory, ICommand
                 { 
                 public object Adapt(IDictionary<object, object> startObject) 
-                { return {{name}}Adapter(startObject); } 
+                { return new {{name}}Adapter(startObject); } 
 
                 public void Execute() 
-                { IoC.Resolve<ICommand>(""IoC.Register"", ""Adapters.{{interfaceName}}"", (object[] args) => this.Adapt((IDictionary<object, object>) args[0])).Execute(); } 
+                { IoC.Resolve<ICommand>(""IoC.Register"", ""Adapters.{{name}}"", (object[] args) => this.Adapt((IDictionary<object, object>) args[0])).Execute(); } 
                 }")
                 .Render(new
                 {
                     Name = interfaceName.Substring(1),
-                    IntefaceName = interfaceName,
+                    InterfaceName = interfaceName,
                     Fields = fieldsInString
                 });
         }).Execute();
@@ -71,10 +74,10 @@ public class IoCRegMakeAdapterCommand : ICommand
             .Render(new { Type = type, Name = name });
 
     public string CustomGetter(string customGetter)
-        => Template.ParseLiquid("get => ({{type}}) {{customGetter}}(startObject);")
-            .Render(new { CustomGetter = customGetter });
+        => Template.ParseLiquid("get => {{get}}(startObject);")
+            .Render(new { get = customGetter });
 
     public string CustomSetter(string customSetter)
-        => Template.ParseLiquid("set => {{customSetter}}(startObject, value);")
-            .Render(new { CustomSetter = customSetter });
+        => Template.ParseLiquid("set => {{set}}(startObject, value);")
+            .Render(new { set = customSetter });
 }

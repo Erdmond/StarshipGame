@@ -1,19 +1,26 @@
 namespace StarshipGame;
+
 using System.Reflection;
 
 public class IoCRegParseAttributes : ICommand
 {
     public void Execute()
     {
-        var attributesDictionary = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(assembly => assembly.GetTypes())
+        var attributesDictionary = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .Where(assembly =>
+                !assembly.IsDynamic &&
+                !string.IsNullOrWhiteSpace(assembly.Location) &&
+                assembly.ExportedTypes.Any())
+            .SelectMany(assembly => assembly.ExportedTypes)
             .SelectMany(type => type.GetMethods(
                 BindingFlags.Public |
                 BindingFlags.NonPublic |
                 BindingFlags.Instance |
                 BindingFlags.Static)
                 .Select(method => new { Type = type, Method = method }))
-            .SelectMany(m => m.Method.GetCustomAttributes(typeof(CustomMethodAttribute))
+            .SelectMany(m => m.Method
+                .GetCustomAttributes(typeof(CustomMethodAttribute), inherit: false)
                 .Cast<CustomMethodAttribute>()
                 .Select(attr => new
                 {

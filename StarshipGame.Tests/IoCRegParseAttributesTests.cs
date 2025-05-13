@@ -10,7 +10,7 @@ public class IoCRegParseAttributesTests
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
     }
 
-    private class TestClass
+    public class TestClass
     {
         [CustomMethod("TestCommand", true)]
         public void TestMethod() { }

@@ -8,16 +8,30 @@ public class IoCRegCommandRegisterStringMake : ICommand
     {
         IoC.Resolve<ICommand>("IoC.Register", "Adapters.Command.MakeLine", (object[] args) =>
         {
-            if (((string)args[0]).Length == 0 || args[0] == null)
-                throw new Exception("Invalid Command Name");
+            if (args[0] is not string commandName || string.IsNullOrWhiteSpace(commandName))
+                throw new ArgumentException("Invalid Command Name");
 
-            if (((string)args[1]).Length == 0 || args[1] == null)
-                throw new Exception("Invalid Class Name");
+            if (args[1] is not string className || string.IsNullOrWhiteSpace(className))
+                throw new ArgumentException("Invalid Class Name");
 
-            return Template
-                .ParseLiquid(
-                    @"IoC.Resolve<ICommand>(""IoC.Register"", ""Commands.{{command}}"", (object[] args) => new {{command}}(IoC.Resolve<I{{cls}}>(""Adapters.{{cls}}"", args[0]))).Execute();")
-                .Render(new { command = args[0], cls = args[1] });
+            var template = @"
+using System;
+using System.Collections.Generic;
+
+public class {{command}}Factory : ICommand
+{
+    public void Execute()
+    {
+        IoC.Resolve<ICommand>(""IoC.Register"", ""Commands.{{command}}"",
+            (object[] args) => new {{command}}(
+                IoC.Resolve<I{{cls}}>(""Adapters.{{cls}}"", args[0])
+            )
+        ).Execute();
+    }
+}";
+
+            return Template.ParseLiquid(template)
+                .Render(new { command = commandName, cls = className });
         }).Execute();
     }
 }

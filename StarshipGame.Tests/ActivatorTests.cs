@@ -80,7 +80,7 @@ public class DynamicCommandActivatorTests
         }
         catch (Exception ex)
         {
-            Assert.False(true, $"Expected no exception, but got: {ex.Message}");
+            Assert.Fail($"Expected no exception, but got: {ex.Message}");
         }
     }
 }

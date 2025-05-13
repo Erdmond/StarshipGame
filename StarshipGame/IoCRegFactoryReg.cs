@@ -7,8 +7,8 @@ public class RegisterIoCDependencyFactoryReg : ICommand
     public void Execute()
     {
         IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register", 
-            "FactoriesRegister", 
+            "IoC.Register",
+            "FactoriesRegister",
             (object[] args) =>
             {
                 List<Type> interfaces = (List<Type>)args[0];
@@ -23,9 +23,9 @@ public class RegisterIoCDependencyFactoryReg : ICommand
                         return new Field(
                             pi.PropertyType.Name,
                             pi.Name,
-                            defaultGetter, 
+                            defaultGetter,
                             defaultSetter,
-                            defaultGetter ? null : IoC.Resolve<string>("Adapter.ComputeMethod", pi.Name, true), 
+                            defaultGetter ? null : IoC.Resolve<string>("Adapter.ComputeMethod", pi.Name, true),
                             defaultSetter ? null : IoC.Resolve<string>("Adapter.ComputeMethod", pi.Name, false),
                             pi.CanWrite
                         );
@@ -35,7 +35,7 @@ public class RegisterIoCDependencyFactoryReg : ICommand
                 }).ToArray();
 
                 adapterStrings
-                    .Select<string, object>((string adapterString, int index) => 
+                    .Select<string, object>((string adapterString, int index) =>
                     {
                         IoC.Resolve<Hwdtech.ICommand>("Commands.ActivateCommand", adapterString).Execute();
                         return null;
@@ -43,7 +43,7 @@ public class RegisterIoCDependencyFactoryReg : ICommand
                     .ToArray();
 
                 interfaces
-                    .Select<Type, object>((Type interfaceType, int index) => 
+                    .Select<Type, object>((Type interfaceType, int index) =>
                     {
                         var factoryCommand = IoC.Resolve<Hwdtech.ICommand>("Factories.Create", interfaceType);
                         factoryCommand.Execute();

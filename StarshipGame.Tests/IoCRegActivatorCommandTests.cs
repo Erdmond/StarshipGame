@@ -8,7 +8,7 @@ public class RegisterIoCDependencyActivatorCommandTests
     public RegisterIoCDependencyActivatorCommandTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<ICommand>("Scopes.Current.Set", 
+        IoC.Resolve<ICommand>("Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
     }
 

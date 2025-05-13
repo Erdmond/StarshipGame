@@ -13,7 +13,7 @@ public class IoCRegParseAttributesTests
     private class TestClass
     {
         [CustomMethod("TestCommand", true)]
-        public void TestMethod() {}
+        public void TestMethod() { }
     }
 
     [Fact]
@@ -62,11 +62,11 @@ public class IoCRegParseAttributesTests
     {
         // Arrange
         var command = new IoCRegParseAttributes();
-        
+
         // Act
         command.Execute();
         var result = IoC.Resolve<IDictionary<(string, bool), string>>("Commands.ParseAttributes");
-        
+
         // Assert
         var key = ("TestCommand", true);
         Assert.Single(result.Where(kv => kv.Key == key));

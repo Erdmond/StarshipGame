@@ -70,7 +70,7 @@ public class IoCRegCollectInterfacesTest
     [Fact]
     public void NullThrowsArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => 
+        Assert.Throws<ArgumentNullException>(() =>
             IoC.Resolve<List<Type>>("Commands.CollectInterfaces", null));
     }
 }

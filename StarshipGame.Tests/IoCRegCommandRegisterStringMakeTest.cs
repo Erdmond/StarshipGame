@@ -29,7 +29,7 @@ public class IoCRegCommandRegisterStringMakeTest
     {
         Assert.Throws<Exception>(() => IoC.Resolve<string>("Adapters.Command.MakeLine", "", "TestClassName"));
     }
-    
+
     [Fact]
     public void WrongClassName()
     {

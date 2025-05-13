@@ -13,7 +13,7 @@ public class IoCRegCollectInterfaces : ICommand
             (object[] args) =>
             {
                 var commandTypes = args.FirstOrDefault() as IEnumerable<Type> ?? Enumerable.Empty<Type>();
-                
+
                 return commandTypes
                     .Select(type => type.GetConstructors()[0].GetParameters()[0].ParameterType)
                     .Distinct()

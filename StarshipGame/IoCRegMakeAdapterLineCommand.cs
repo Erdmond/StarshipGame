@@ -17,7 +17,7 @@ public class IoCRegMakeAdapterCommand : ICommand
         {
             if (((string)args[0]).Length < 2)
                 throw new ArgumentException("Wrong Naming");
-            
+
             string interfaceName = (string)args[0];
             Field[] fields = (Field[])args[1];
 
@@ -40,7 +40,7 @@ public class IoCRegMakeAdapterCommand : ICommand
                 }).ToArray();
 
             string fieldsInString = string.Join(" ", fieldValues);
-            
+
             return Template.ParseLiquid(@"class {{name}}Adapter: I{{name}} { 
                 IDictionary<object, object> startObject; 
                 public {{name}}Adapter(IDictionary<object, object> _startObject) 

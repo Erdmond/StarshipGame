@@ -14,7 +14,7 @@ public class RegisterIoCDependencyFactoryReg : Hwdtech.ICommand
             (object[] args) =>
             {
                 List<Type> interfaces = (List<Type>)args[0];
-                
+
                 string[] adapterStrings = interfaces.Select(i => IoC.Resolve<string>("Adapters.CreateAdapter", i.Name,
                     i.GetProperties()
                         .Select(pi =>

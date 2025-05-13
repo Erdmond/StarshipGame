@@ -62,7 +62,7 @@ public class IoCRegMakeAdapterLineCommandTest
     [Fact]
     public void UntitledAdapterThrowsException()
     {
-        Assert.Throws<ArgumentException>(() => IoC.Resolve<string>("Adapters.CreateAdapter", "", new Field[]{}));
+        Assert.Throws<ArgumentException>(() => IoC.Resolve<string>("Adapters.CreateAdapter", "", new Field[] { }));
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class IoCRegMakeAdapterLineCommandTest
     {
         Assert.Throws<IndexOutOfRangeException>(() => IoC.Resolve<string>("Adapters.CreateAdapter", "IInterface"));
     }
-    
+
     [Fact]
     public void NullFieldsThrowsException()
     {

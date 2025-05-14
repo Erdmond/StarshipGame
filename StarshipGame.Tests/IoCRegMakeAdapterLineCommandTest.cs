@@ -34,6 +34,23 @@ public class IoCRegMakeAdapterLineCommandTest
     }
 
     [Fact]
+    public void MakeFieldCommandCreatesFieldSuccessfully()
+    {
+        var field = IoC.Resolve<Field>(
+            "Adapters.MakeField", 
+            "int", "SomeField", true, true, null, null, true
+        );
+
+        Assert.Equal("int", field.Type);
+        Assert.Equal("SomeField", field.Name);
+        Assert.True(field.IsDefaultGetter);
+        Assert.True(field.IsDefaultSetter);
+        Assert.Null(field.CustomGetter);
+        Assert.Null(field.CustomSetter);
+        Assert.True(field.NeedSetter);
+    }
+
+    [Fact]
     public void MakeAdapterLineProperlyWithAllFieldsFactoryAndIocStrategy()
     {
         string adapter = IoC.Resolve<string>("Adapters.CreateAdapter", "ITest", new[]
@@ -83,4 +100,10 @@ public class IoCRegMakeAdapterLineCommandTest
         Assert.Throws<ArgumentNullException>(() => IoC.Resolve<string>("Adapters.CreateAdapter", "IInterface", null));
     }
 
+    [Fact]
+    public void CreateAdapterThrowsIfNameIsTooShort()
+    {
+        Assert.Throws<ArgumentException>(() => 
+            IoC.Resolve<string>("Adapters.CreateAdapter", "A", new Field[] { }));
+    }
 }

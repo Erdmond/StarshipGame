@@ -37,7 +37,7 @@ public class IoCRegMakeAdapterLineCommandTest
     public void MakeFieldCommandCreatesFieldSuccessfully()
     {
         var field = IoC.Resolve<Field>(
-            "Adapters.MakeField", 
+            "Adapters.MakeField",
             "int", "SomeField", true, true, null, null, true
         );
 
@@ -103,7 +103,7 @@ public class IoCRegMakeAdapterLineCommandTest
     [Fact]
     public void CreateAdapterThrowsIfNameIsTooShort()
     {
-        Assert.Throws<ArgumentException>(() => 
+        Assert.Throws<ArgumentException>(() =>
             IoC.Resolve<string>("Adapters.CreateAdapter", "A", new Field[] { }));
     }
 }

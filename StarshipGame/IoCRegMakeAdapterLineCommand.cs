@@ -28,12 +28,9 @@ public class IoCRegMakeAdapterCommand : ICommand
                         ? Getter(field.Type, field.Name)
                         : CustomGetter(field.CustomGetter);
 
-                    string setter;
-                    if (field.NeedSetter)
-                        setter = field.IsDefaultSetter
+                    string setter = field.IsDefaultSetter
                             ? Setter(field.Type, field.Name)
                             : CustomSetter(field.CustomSetter);
-                    else setter = "";
 
                     return Template.ParseLiquid("public {{type}} {{name}} { {{getter}} {{setter}} }")
                         .Render(new { Type = field.Type, Name = field.Name, Getter = getter, Setter = setter });

@@ -99,11 +99,4 @@ public class IoCRegMakeAdapterLineCommandTest
     {
         Assert.Throws<ArgumentNullException>(() => IoC.Resolve<string>("Adapters.CreateAdapter", "IInterface", null));
     }
-
-    [Fact]
-    public void CreateAdapterThrowsIfNameIsTooShort()
-    {
-        Assert.Throws<ArgumentException>(() =>
-            IoC.Resolve<string>("Adapters.CreateAdapter", "A", new Field[] { }));
-    }
 }

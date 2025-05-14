@@ -13,7 +13,7 @@ public class IoCRegAdapterComputeMethod : ICommand
                 var isGet = (bool)args[1];
 
                 var attributeMethods = IoC.Resolve<Dictionary<(string, bool), string>>("Commands.ParseAttributes");
-                return attributeMethods[(fieldName, isGet)];
+                return (object)attributeMethods[(fieldName, isGet)];
             }
         ).Execute();
     }

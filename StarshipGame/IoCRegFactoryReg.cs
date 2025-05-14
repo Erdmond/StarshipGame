@@ -38,7 +38,7 @@ public class RegisterIoCDependencyFactoryReg : ICommand
                     .Select<string, object>((string adapterString, int index) =>
                     {
                         IoC.Resolve<Hwdtech.ICommand>("Commands.ActivateCommand", adapterString).Execute();
-                        return null;
+                        return (object)null;
                     })
                     .ToArray();
 
@@ -47,9 +47,11 @@ public class RegisterIoCDependencyFactoryReg : ICommand
                     {
                         var factoryCommand = IoC.Resolve<Hwdtech.ICommand>("Factories.Create", interfaceType);
                         factoryCommand.Execute();
-                        return null;
+                        return (object)null;
                     })
                     .ToArray();
+
+                return (object)null;
             }
         ).Execute();
     }

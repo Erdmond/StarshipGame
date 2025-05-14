@@ -26,7 +26,7 @@ public class RegisterIoCDependencyFactoryRegTests
 
         IoC.Resolve<ICommand>("IoC.Register", "Adapter.IsComputed", (object[] args) => (object)true).Execute();
         IoC.Resolve<ICommand>("IoC.Register", "Adapter.ComputeMethod", (object[] args) => (object)"computeMethod").Execute();
-        
+
         IoC.Resolve<ICommand>("IoC.Register", "Adapters.CreateAdapter", (object[] args) =>
         {
             string adapterString = $"{args[0]}_adapter";
